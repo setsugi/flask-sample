@@ -57,3 +57,8 @@ def add_amployee():
 def employee_list():
     employees = Employee.query.all()
     return render_template('testapp/employee_list.html', employees=employees)
+
+@app.route('/employees/<int:id>')
+def employee_detail(id):
+    employee = Employee.query.get(id)
+    return render_template('testapp/employee_detail.html', employee=employee)
