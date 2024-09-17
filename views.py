@@ -60,5 +60,5 @@ def employee_list():
 
 @app.route('/employees/<int:id>')
 def employee_detail(id):
-    employee = Employee.query.get(id)
+    employee = Employee.query.get_or_404(id)
     return render_template('testapp/employee_detail.html', employee=employee)
