@@ -55,10 +55,31 @@ def add_amployee():
 
 @app.route('/employees')
 def employee_list():
+    # 一覧ページ（全件）
     employees = Employee.query.all()
     return render_template('testapp/employee_list.html', employees=employees)
 
 @app.route('/employees/<int:id>')
 def employee_detail(id):
+    # 詳細ページ
     employee = Employee.query.get_or_404(id)
     return render_template('testapp/employee_detail.html', employee=employee)
+
+@app.route('/employee/<int:id>/edit', methods=['GET'])
+def employee_edit(id):
+    # 編集ページ表示用
+    employee = Employee.query.get(id)
+    return render_template('testapp/employee_edit.html', employee=employee)
+
+@app.route('/employees/<int:id>/update', methods=['POST'])
+def employee_update(id):
+    employee = Employee.query.get(id)  # 更新するデータをDBから取得
+    employee.name = request.form.get('name')
+    employee.mail = request.form.get('mail')
+    employee.is_remote = request.form.get('is_remote', default=False, type=bool)
+    employee.department = request.form.get('department')
+    employee.year = request.form.get('year', default=0, type=int)
+
+    db.session.merge(employee)
+    db.session.commit()
+    return redirect(url_for('employee_list'))
