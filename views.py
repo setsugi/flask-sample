@@ -30,7 +30,7 @@ def sample_form():
         return f'POST受け取ったよ: {req1}'
 
 @app.route('/add_employee', methods=['GET', 'POST'])
-def add_amployee():
+def add_employee():
     if request.method == 'GET':
         return render_template('testapp/add_employee.html')
     if request.method == 'POST':
